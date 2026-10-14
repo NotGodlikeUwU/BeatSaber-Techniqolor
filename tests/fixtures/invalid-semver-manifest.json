@@ -1,0 +1,9 @@
+{
+  "_QPVersion": "0.1.1",
+  "name": "Techniqolor packaging regression fixture",
+  "id": "techniqolor",
+  "author": "Techniqolor",
+  "version": "0.1",
+  "modloader": "Scotland2",
+  "modFiles": ["libtechniqolor.so"]
+}

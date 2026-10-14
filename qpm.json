@@ -7,7 +7,7 @@
     "name": "Techniqolor",
     "id": "techniqolor",
     "version": "0.1.0",
-    "url": "https://github.com/NotGodlikeUwU/Techniqolor",
+    "url": "https://github.com/NotGodlikeUwU/BeatSaber-Techniqolor",
     "additionalData": {
       "overrideSoName": "libtechniqolor.so",
       "cmake": true
@@ -33,20 +33,19 @@
     "qmodIncludeFiles": [
       "./LICENSE",
       "./README.md",
-      "./THIRD_PARTY_NOTICES.md",
       "./third_party/quest-mod-template-UNLICENSE.txt"
     ],
-    "qmodOutput": "./Techniqolor-0.1.qmod"
+    "qmodOutput": "./Techniqolor-0.1.0.qmod"
   },
   "dependencies": [
     {
       "id": "beatsaber-hook",
-      "versionRange": "=6.4.2",
+      "versionRange": "^6.4.2",
       "additionalData": {}
     },
     {
       "id": "bs-cordl",
-      "versionRange": "4008.*",
+      "versionRange": "^4008.0.0",
       "additionalData": {}
     },
     {
@@ -56,12 +55,12 @@
     },
     {
       "id": "custom-types",
-      "versionRange": "=0.18.4",
+      "versionRange": "^0.18.4",
       "additionalData": {}
     },
     {
       "id": "paper2_scotland2",
-      "versionRange": "=4.8.0",
+      "versionRange": "^4.8.0",
       "additionalData": {}
     },
     {
@@ -73,12 +72,12 @@
     },
     {
       "id": "songcore",
-      "versionRange": "=1.1.26",
+      "versionRange": "^1.1.26",
       "additionalData": {}
     },
     {
       "id": "bsml",
-      "versionRange": "=0.4.55",
+      "versionRange": "^0.4.55",
       "additionalData": {}
     }
   ]

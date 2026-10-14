@@ -1,9 +1,11 @@
 $ErrorActionPreference='Stop'
 $taskProject=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
-$taskOutput=Join-Path $taskProject 'Techniqolor-0.1-source.zip'
-$taskFiles=@('CMakeLists.txt','qpm.json','qpm.shared.json','mod.template.json','README.md','RELEASE_NOTES.md','LICENSE','THIRD_PARTY_NOTICES.md','.gitignore','.gitattributes') | ForEach-Object { Get-Item -LiteralPath (Join-Path $taskProject $_) }
-foreach($taskDirectory in @('src','include','shared','cmake','scripts','tests','docs','third_party')) {
-    $taskFiles+=@(Get-ChildItem -LiteralPath (Join-Path $taskProject $taskDirectory) -Recurse -File)
+$taskConfig=Get-Content (Join-Path $taskProject 'qpm.json') -Raw | ConvertFrom-Json
+$taskOutput=Join-Path $taskProject ("Techniqolor-"+$taskConfig.info.version+"-source.zip")
+$taskFiles=@('CMakeLists.txt','qpm.json','qpm.shared.json','mod.template.json','README.md','LICENSE','.gitignore','.gitattributes') | ForEach-Object { Get-Item -LiteralPath (Join-Path $taskProject $_) }
+foreach($taskDirectory in @('src','include','shared','cmake','scripts','tests','docs','third_party','schemas')) {
+    $taskPath=Join-Path $taskProject $taskDirectory
+    if(Test-Path -LiteralPath $taskPath) { $taskFiles+=@(Get-ChildItem -LiteralPath $taskPath -Recurse -File) }
 }
 $taskZipStream=[IO.File]::Open($taskOutput,[IO.FileMode]::Create)
 $taskZip=[IO.Compression.ZipArchive]::new($taskZipStream,[IO.Compression.ZipArchiveMode]::Create)

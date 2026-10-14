@@ -1,14 +1,14 @@
 # Techniqolor
 
-**Version 0.1 · Beat Saber Quest 1.40.8_7379 · Scotland2**
+**Version 0.1.0 · Beat Saber Quest 1.40.8_7379 · Scotland2**
 
 Techniqolor is a native C++/IL2CPP Quest port of **Technicolor 1.1.2 by Aeroluna**. It adds rainbow colors to lights, notes, walls, bombs and sabers, with separate styles for the left hand. Made with help of ChatGPT 6.1
 
 ## Installation
 
-1. Download `Techniqolor-0.1.qmod` from [Releases](https://github.com/NotGodlikeUwU/Techniqolor/releases).
+1. Download `Techniqolor-0.1.0.qmod` from [Release 0.1.0](https://github.com/NotGodlikeUwU/BeatSaber-Techniqolor/releases/tag/v0.1.0). This corrects the invalid version in the earlier 0.1 package; the manifest uses compatible caret dependency ranges.
 2. Install it using your QMOD installer for modded **Beat Saber 1.40.8_7379**.
-4. Open **Mod Settings → Techniqolor**. Settings take effect when you start the next level.
+3. Open **Mod Settings → Techniqolor**. Settings take effect when you start the next level.
 
 Defaults: lights and walls use **Gradient**, bombs use **True Random**, notes and sabers are **Off**, lighting grouping is **Mayhem**, and frequency is **0.1**.
 
@@ -36,21 +36,21 @@ Defaults: lights and walls use **Gradient**, bombs use **True Random**, notes an
 Install **QPM**, **CMake 3.22+**, **Ninja**, **PowerShell 7** and **Android NDK r27d**. Add QPM, CMake and Ninja to PATH.
 
 ```powershell
-git clone https://github.com/NotGodlikeUwU/Techniqolor.git
-cd Techniqolor
+git clone https://github.com/NotGodlikeUwU/BeatSaber-Techniqolor.git
+cd BeatSaber-Techniqolor
 pwsh scripts/setup.ps1 -NdkPath C:/Android/android-ndk-r27d
 pwsh scripts/build.ps1
-pwsh scripts/test.ps1
 pwsh scripts/package.ps1 -SkipBuild
+pwsh scripts/test.ps1
 ```
 
 Replace the example NDK path with your installation. `setup.ps1` restores dependencies into the project's own `extern` directory. Use `-CachePath <path> -Offline` to restore from an existing QPM cache without downloading packages.
 
 Host tests require a C++20 compiler; the recorded local tests used Visual Studio 2026. `build/debug/libtechniqolor.so` contains debugging symbols, while `build/libtechniqolor.so` is the library packaged in the QMOD.
 
-Run `pwsh scripts/archive-source.ps1` to create `Techniqolor-0.1-source.zip`.
+Run `pwsh scripts/archive-source.ps1` to create `Techniqolor-0.1.0-source.zip`.
 
-QPM requires the internal semantic package version `0.1.0`; the mod's runtime, QMOD and release version are `0.1`.
+The runtime and QMOD use full SemVer `0.1.0`. Build release packages with `scripts/package.ps1` (or `qpm s qmod`), which preserves caret dependency ranges and validates the final archive against the official QMOD schema.
 
 Key files:
 
@@ -63,7 +63,7 @@ Key files:
 
 Original Technicolor: **Aeroluna**, MIT license retained in [LICENSE](LICENSE).
 
-Build scaffold: quest-mod-template, Unlicense. See [third-party notices](THIRD_PARTY_NOTICES.md).
+Build scaffold: quest-mod-template, Unlicense. See the [template license](third_party/quest-mod-template-UNLICENSE.txt). The offline QMOD schema uses the [zlib license](schemas/QuestPatcher.QMod-LICENSE.txt).
 
 Configuration and UI use the installed dependency headers and the BSMG [configuration guide](https://bsmg.wiki/modding/quest/config.html) and [Quest modding guide](https://bsmg.wiki/modding/quest/intro.html).
 

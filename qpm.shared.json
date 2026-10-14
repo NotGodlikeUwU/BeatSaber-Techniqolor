@@ -8,7 +8,7 @@
       "name": "Techniqolor",
       "id": "techniqolor",
       "version": "0.1.0",
-      "url": "https://github.com/NotGodlikeUwU/Techniqolor",
+      "url": "https://github.com/NotGodlikeUwU/BeatSaber-Techniqolor",
       "additionalData": {
         "overrideSoName": "libtechniqolor.so",
         "cmake": true
@@ -34,20 +34,19 @@
       "qmodIncludeFiles": [
         "./LICENSE",
         "./README.md",
-        "./THIRD_PARTY_NOTICES.md",
         "./third_party/quest-mod-template-UNLICENSE.txt"
       ],
-      "qmodOutput": "./Techniqolor-0.1.qmod"
+      "qmodOutput": "./Techniqolor-0.1.0.qmod"
     },
     "dependencies": [
       {
         "id": "beatsaber-hook",
-        "versionRange": "=6.4.2",
+        "versionRange": "^6.4.2",
         "additionalData": {}
       },
       {
         "id": "bs-cordl",
-        "versionRange": "4008.*",
+        "versionRange": "^4008.0.0",
         "additionalData": {}
       },
       {
@@ -57,12 +56,12 @@
       },
       {
         "id": "custom-types",
-        "versionRange": "=0.18.4",
+        "versionRange": "^0.18.4",
         "additionalData": {}
       },
       {
         "id": "paper2_scotland2",
-        "versionRange": "=4.8.0",
+        "versionRange": "^4.8.0",
         "additionalData": {}
       },
       {
@@ -74,12 +73,12 @@
       },
       {
         "id": "songcore",
-        "versionRange": "=1.1.26",
+        "versionRange": "^1.1.26",
         "additionalData": {}
       },
       {
         "id": "bsml",
-        "versionRange": "=0.4.55",
+        "versionRange": "^0.4.55",
         "additionalData": {}
       }
     ]
@@ -107,19 +106,15 @@
     },
     {
       "dependency": {
-        "id": "libil2cpp",
-        "versionRange": "=0.4.0",
+        "id": "rapidjson-macros",
+        "versionRange": "=2.1.0",
         "additionalData": {
           "headersOnly": true,
-          "compileOptions": {
-            "systemIncludes": [
-              "il2cpp/external/baselib/Include",
-              "il2cpp/external/baselib/Platforms/Android/Include"
-            ]
-          }
+          "branchName": "version/v2_1_0",
+          "cmake": false
         }
       },
-      "version": "0.4.0"
+      "version": "2.1.0"
     },
     {
       "dependency": {
@@ -163,18 +158,6 @@
         }
       },
       "version": "4.8.0"
-    },
-    {
-      "dependency": {
-        "id": "rapidjson-macros",
-        "versionRange": "=2.1.0",
-        "additionalData": {
-          "headersOnly": true,
-          "branchName": "version/v2_1_0",
-          "cmake": false
-        }
-      },
-      "version": "2.1.0"
     },
     {
       "dependency": {
@@ -286,6 +269,22 @@
         }
       },
       "version": "0.4.55"
+    },
+    {
+      "dependency": {
+        "id": "libil2cpp",
+        "versionRange": "=0.4.0",
+        "additionalData": {
+          "headersOnly": true,
+          "compileOptions": {
+            "systemIncludes": [
+              "il2cpp/external/baselib/Include",
+              "il2cpp/external/baselib/Platforms/Android/Include"
+            ]
+          }
+        }
+      },
+      "version": "0.4.0"
     }
   ]
 }
