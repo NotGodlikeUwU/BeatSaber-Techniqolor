@@ -1,0 +1,17 @@
+{
+  "_QPVersion": "0.1.1",
+  "name": "Techniqolor",
+  "id": "techniqolor",
+  "author": "Aeroluna; Quest port contributors",
+  "version": "0.1",
+  "packageId": "com.beatgames.beatsaber",
+  "packageVersion": "1.40.8_7379",
+  "description": "Techniqolor: a native Quest port of Technicolor with rainbow lights, notes, walls, bombs and sabers. Experimental; headset validation pending.",
+  "dependencies": [],
+  "modFiles": [
+    "libtechniqolor.so"
+  ],
+  "libraryFiles": [],
+  "fileCopies": [],
+  "modloader": "Scotland2"
+}

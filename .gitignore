@@ -1,0 +1,13 @@
+/build/
+/extern/
+/extern.cmake
+/qpm.settings.json
+/ndkpath.txt
+/*.qmod
+/*.zip
+/*.log
+/qpm_defines.cmake
+/.publish/
+/backups/
+/mod.json
+/logs/

@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.22)
+project(TechniqolorColorTests LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 20)
+enable_testing()
+add_executable(color_tests color_tests.cpp)
+target_include_directories(color_tests PRIVATE ../include)
+add_test(NAME color_contract COMMAND color_tests)

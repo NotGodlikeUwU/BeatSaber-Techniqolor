@@ -1,0 +1,85 @@
+{
+  "$schema": "https://raw.githubusercontent.com/QuestPackageManager/QPM.Package/refs/heads/main/qpm.schema.json",
+  "version": "0.4.0",
+  "sharedDir": "shared",
+  "dependenciesDir": "extern",
+  "info": {
+    "name": "Techniqolor",
+    "id": "techniqolor",
+    "version": "0.1.0",
+    "url": "https://github.com/NotGodlikeUwU/Techniqolor",
+    "additionalData": {
+      "overrideSoName": "libtechniqolor.so",
+      "cmake": true
+    }
+  },
+  "workspace": {
+    "scripts": {
+      "build": [
+        "pwsh ./scripts/build.ps1"
+      ],
+      "qmod": [
+        "pwsh ./scripts/package.ps1"
+      ],
+      "test": [
+        "pwsh ./scripts/test.ps1"
+      ]
+    },
+    "ndk": "^27.3.13750724",
+    "qmodIncludeDirs": [
+      "./build",
+      "./extern/libs"
+    ],
+    "qmodIncludeFiles": [
+      "./LICENSE",
+      "./README.md",
+      "./THIRD_PARTY_NOTICES.md",
+      "./third_party/quest-mod-template-UNLICENSE.txt"
+    ],
+    "qmodOutput": "./Techniqolor-0.1.qmod"
+  },
+  "dependencies": [
+    {
+      "id": "beatsaber-hook",
+      "versionRange": "=6.4.2",
+      "additionalData": {}
+    },
+    {
+      "id": "bs-cordl",
+      "versionRange": "4008.*",
+      "additionalData": {}
+    },
+    {
+      "id": "config-utils",
+      "versionRange": "^2.0.3",
+      "additionalData": {}
+    },
+    {
+      "id": "custom-types",
+      "versionRange": "=0.18.4",
+      "additionalData": {}
+    },
+    {
+      "id": "paper2_scotland2",
+      "versionRange": "=4.8.0",
+      "additionalData": {}
+    },
+    {
+      "id": "scotland2",
+      "versionRange": "^0.1.6",
+      "additionalData": {
+        "includeQmod": false
+      }
+    },
+    {
+      "id": "songcore",
+      "versionRange": "=1.1.26",
+      "additionalData": {}
+    },
+    {
+      "id": "bsml",
+      "versionRange": "=0.4.55",
+      "additionalData": {}
+    }
+  ]
+}
