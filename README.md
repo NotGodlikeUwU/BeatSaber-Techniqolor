@@ -1,5 +1,7 @@
 # Techniqolor
 
+[![Quest CI](https://github.com/NotGodlikeUwU/BeatSaber-Techniqolor/actions/workflows/ci.yml/badge.svg)](https://github.com/NotGodlikeUwU/BeatSaber-Techniqolor/actions/workflows/ci.yml)
+
 **Version 0.1.0 · Beat Saber Quest 1.40.8_7379 · Scotland2**
 
 Techniqolor is a native C++/IL2CPP Quest port of **Technicolor 1.1.2 by Aeroluna**. It adds rainbow colors to lights, notes, walls, bombs and sabers, with separate styles for the left hand. Made with help of ChatGPT 6.1
@@ -58,6 +60,12 @@ Key files:
 - `src/settings.cpp`: BSML menus.
 - `include/color_engine.hpp`: independent color logic.
 - `include/modconfig.hpp`: settings.
+
+## Continuous integration
+
+[Quest CI](https://github.com/NotGodlikeUwU/BeatSaber-Techniqolor/actions/workflows/ci.yml) runs on pushes to `main`, version tags and pull requests. It restores locked QPM dependencies, builds with Android NDK r27d, validates the QMOD schema and caret dependency ranges, and runs the color and manifest regression tests.
+
+Successful runs provide a tested QMOD and separate native debugging symbols under **Artifacts**, retained for 14 days. You can also start a build using **Actions → Quest CI → Run workflow**. Installation through MBF and gameplay still require testing on a headset.
 
 ## Credits and licenses
 

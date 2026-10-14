@@ -1,0 +1,121 @@
+name: Quest CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quest-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and verify Quest QMOD
+    runs-on: windows-2022
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      QPM_VERSION: '1.5.11'
+      NDK_VERSION: '27.3.13750724'
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate version and dependency declarations
+        run: ./scripts/check-config.ps1
+
+      - name: Install pinned QPM
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tools = Join-Path $env:RUNNER_TEMP 'qpm-tools'
+          $archive = Join-Path $env:RUNNER_TEMP 'qpm.zip'
+          Invoke-WebRequest "https://github.com/QuestPackageManager/QPM.CLI/releases/download/v$env:QPM_VERSION/qpm-windows-x64.zip" -OutFile $archive
+          $expected = 'c47c2b9a1b3b31cd1e3d134623973f1fe7487c26ab7a27c50c1739df9688321e'
+          if ((Get-FileHash $archive -Algorithm SHA256).Hash -ne $expected) { throw 'QPM download checksum mismatch' }
+          Expand-Archive $archive -DestinationPath $tools
+          if (-not (Test-Path (Join-Path $tools 'qpm.exe'))) { throw 'QPM executable missing' }
+          $tools | Out-File $env:GITHUB_PATH -Append -Encoding utf8
+
+      - name: Select Android NDK r27d
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $ndk = Join-Path $env:ANDROID_HOME "ndk/$env:NDK_VERSION"
+          if (-not (Test-Path (Join-Path $ndk 'build/cmake/android.toolchain.cmake'))) {
+            $manager = Join-Path $env:ANDROID_HOME 'cmdline-tools/latest/bin/sdkmanager.bat'
+            & $manager "ndk;$env:NDK_VERSION"
+            if ($LASTEXITCODE -ne 0) { throw 'NDK installation failed' }
+          }
+          if (-not (Test-Path (Join-Path $ndk 'source.properties'))) { throw 'NDK installation missing' }
+          if (-not (Select-String -Path (Join-Path $ndk 'source.properties') -Pattern '^Pkg.Revision\s*=\s*27\.3\.13750724\s*$')) { throw 'Unexpected NDK version' }
+          "ANDROID_NDK_HOME=$ndk" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          "QPM_CACHE=$(Join-Path $env:RUNNER_TEMP 'qpm-cache')" | Out-File $env:GITHUB_ENV -Append -Encoding utf8
+          qpm --version
+          if ($LASTEXITCODE -ne 0) { throw 'QPM unavailable' }
+          cmake --version
+          if ($LASTEXITCODE -ne 0) { throw 'CMake unavailable' }
+          ninja --version
+          if ($LASTEXITCODE -ne 0) { throw 'Ninja unavailable' }
+
+      - name: Cache QPM downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ env.QPM_CACHE }}
+          key: qpm-windows-${{ env.QPM_VERSION }}-${{ hashFiles('qpm.json', 'qpm.shared.json') }}
+          restore-keys: |
+            qpm-windows-${{ env.QPM_VERSION }}-
+
+      - name: Restore locked dependencies
+        run: |
+          ./scripts/setup.ps1 -NdkPath $env:ANDROID_NDK_HOME -CachePath $env:QPM_CACHE
+          git diff --ignore-space-at-eol --exit-code -- qpm.shared.json
+          if ($LASTEXITCODE -ne 0) { throw 'Dependency restore changed the committed lock file' }
+
+      - name: Build ARM64 native library
+        run: ./scripts/build.ps1
+
+      - name: Package and verify QMOD
+        run: ./scripts/package.ps1 -SkipBuild
+
+      - name: Run color and manifest regression tests
+        run: ./scripts/test.ps1
+
+      - name: Record package identity and checksum
+        id: package
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $config = Get-Content qpm.json -Raw | ConvertFrom-Json
+          $manifest = Get-Content mod.json -Raw | ConvertFrom-Json
+          $package = Get-Item -LiteralPath $config.workspace.qmodOutput
+          $hash = (Get-FileHash $package.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+          "path=$($package.FullName)" | Out-File $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "name=$($config.info.name)-$($config.info.version)-Quest" | Out-File $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "## Verified Quest build`n`nCommit: $env:GITHUB_SHA`n`nVersion: $($manifest.version)`n`nBeat Saber: $($manifest.packageVersion) ($($manifest.modloader))`n`nPackage: $($package.Name)`n`nSHA256: $hash`n`nARM64 build, official QMOD schema, caret dependency ranges and host regression tests passed. Headset installation and gameplay require device testing." | Out-File $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+
+      - name: Upload tested QMOD
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ${{ steps.package.outputs.name }}
+          path: ${{ steps.package.outputs.path }}
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+      - name: Upload native debugging symbols
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ${{ steps.package.outputs.name }}-symbols
+          path: build/debug/libtechniqolor.so
+          if-no-files-found: error
+          retention-days: 14
