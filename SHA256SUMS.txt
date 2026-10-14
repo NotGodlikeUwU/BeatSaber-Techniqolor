@@ -1,2 +1,0 @@
-c9e95e7601d2028b419574028ec378c6deca7acc8cc3180c87d94af8156fe1fc  Techniqolor-0.1.qmod
-dafb8b5f77455e49b378fae137ac6c4b01df39107698362eb485ff6dbebf197a  Techniqolor-0.1-source.zip
