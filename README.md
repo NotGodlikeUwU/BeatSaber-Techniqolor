@@ -6,9 +6,9 @@ Techniqolor is a native C++/IL2CPP Quest port of **Technicolor 1.1.2 by Aeroluna
 
 ## Installation
 
-1. Download `Techniqolor-0.1.0.qmod` from [Release 0.1.0](https://github.com/NotGodlikeUwU/BeatSaber-Techniqolor/releases/tag/v0.1.0). This corrects the invalid version in the earlier 0.1 package; the manifest uses compatible caret dependency ranges.
+1. Download `Techniqolor-0.1.0.qmod` from [Release 0.1.0](https://github.com/NotGodlikeUwU/BeatSaber-Techniqolor/releases/tag/v0.1.0).
 2. Install it using your QMOD installer for modded **Beat Saber 1.40.8_7379**.
-3. Open **Mod Settings → Techniqolor**. Settings take effect when you start the next level.
+3. Open **Mod Settings → Techniqolor**.
 
 Defaults: lights and walls use **Gradient**, bombs use **True Random**, notes and sabers are **Off**, lighting grouping is **Mayhem**, and frequency is **0.1**.
 
